@@ -14,8 +14,6 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 5000
 
-connectDB()
-
 app.use(cors())
 
 app.post('/api/payment/webhook', express.raw({ type: 'application/json' }), handleWebhook)
@@ -35,6 +33,10 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: err.message || 'Error interno del servidor' })
 })
 
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en puerto ${PORT}`)
-})
+const start = async () => {
+  await connectDB()
+  app.listen(PORT, () => {
+    console.log(`Servidor corriendo en puerto ${PORT}`)
+  })
+}
+start()
