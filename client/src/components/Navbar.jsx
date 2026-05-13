@@ -8,7 +8,7 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
   const { user, logout } = useAuth()
-  const { itemCount, currency, setCurrency } = useCart()
+  const { itemCount } = useCart()
 
   return (
     <nav className="bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100 sticky top-0 z-50">
@@ -38,13 +38,6 @@ const Navbar = () => {
               Catálogo
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
             </Link>
-            <button 
-              onClick={() => setCurrency(currency === 'PEN' ? 'USD' : 'PEN')}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-full text-amber-700 font-medium text-sm hover:shadow-md transition-all"
-            >
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              {currency === 'PEN' ? 'S/' : '$'}
-            </button>
           </div>
 
           <div className="flex items-center gap-3">

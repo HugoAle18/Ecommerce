@@ -10,7 +10,7 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null)
   const [quantity, setQuantity] = useState(1)
   const [loading, setLoading] = useState(true)
-  const { addToCart, currency } = useCart()
+  const { addToCart } = useCart()
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -29,7 +29,7 @@ const ProductDetail = () => {
   if (loading) return <div className="container mx-auto px-4 py-12">Cargando...</div>
   if (!product) return <div className="container mx-auto px-4 py-12">Producto no encontrado</div>
 
-  const price = currency === 'USD' ? product.priceUSD : product.price
+  const price = product.price
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -56,8 +56,8 @@ const ProductDetail = () => {
           </div>
 
           <div className="mb-6">
-            <span className="text-4xl font-bold text-primary">
-              {formatPrice(price, currency)}
+            <span className="text-4xl font-bold text-gray-900">
+              {formatPrice(price, 'PEN')}
             </span>
           </div>
 

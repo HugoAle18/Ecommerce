@@ -5,10 +5,10 @@ import { useCart } from '../context/CartContext'
 import { formatPrice } from '../utils/formatPrice'
 
 const ProductCard = ({ product }) => {
-  const { addToCart, currency } = useCart()
+  const { addToCart } = useCart()
   const [isHovered, setIsHovered] = useState(false)
   const [isAdding, setIsAdding] = useState(false)
-  const price = currency === 'USD' ? product.priceUSD : product.price
+  const price = product.price
   const rating = Math.round(product.averageRating || 0)
 
   const handleAddToCart = async (e) => {
@@ -68,10 +68,10 @@ const ProductCard = ({ product }) => {
 
         <div className="flex items-center justify-between">
           <div>
-            <span className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-primary to-primary-700 bg-clip-text text-transparent">
-              {formatPrice(price, currency)}
+            <span className="text-xl lg:text-2xl font-bold text-gray-900">
+              {formatPrice(price, 'PEN')}
             </span>
-            {price > 100 && (
+            {price > 200 && (
               <p className="text-xs text-green-600 font-medium">Envío gratis</p>
             )}
           </div>

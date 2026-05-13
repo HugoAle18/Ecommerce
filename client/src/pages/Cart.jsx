@@ -4,7 +4,7 @@ import { formatPrice } from '../utils/formatPrice'
 import { Trash2, Minus, Plus, ShoppingBag } from 'lucide-react'
 
 const Cart = () => {
-  const { cart, updateQuantity, removeItem, currency } = useCart()
+  const { cart, updateQuantity, removeItem } = useCart()
 
   if (!cart.items || cart.items.length === 0) {
     return (
@@ -26,7 +26,7 @@ const Cart = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-4">
           {cart.items.map(item => {
-            const price = currency === 'USD' ? item.priceUSD : item.price
+            const price = item.price || 0
             const itemId = item._id || item.productId
 
             return (
@@ -70,8 +70,8 @@ const Cart = () => {
                 </div>
 
                 <div className="text-right">
-                  <p className="font-bold text-lg">
-                    {formatPrice(price * item.quantity, currency)}
+                  <p className="font-bold text-lg text-gray-900">
+                    {formatPrice(price * item.quantity, 'PEN')}
                   </p>
                 </div>
               </div>
@@ -86,7 +86,7 @@ const Cart = () => {
             <div className="flex justify-between">
               <span className="text-gray-600">Subtotal</span>
               <span className="font-semibold">
-                {formatPrice(currency === 'USD' ? cart.totalUSD : cart.total, currency)}
+                {formatPrice(currency === 'USD' ? cart.totalUSD : cart.total, 'PEN')}
               </span>
             </div>
             <div className="flex justify-between">
@@ -98,8 +98,8 @@ const Cart = () => {
           <div className="border-t pt-4 mb-6">
             <div className="flex justify-between text-xl font-bold">
               <span>Total</span>
-              <span className="text-primary">
-                {formatPrice(currency === 'USD' ? cart.totalUSD : cart.total, currency)}
+              <span className="text-gray-900">
+                {formatPrice(cart.total, 'PEN')}
               </span>
             </div>
           </div>
