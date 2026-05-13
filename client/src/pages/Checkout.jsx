@@ -27,7 +27,7 @@ const Checkout = () => {
     return (
       <div className="container mx-auto px-4 py-16 text-center">
         <h2 className="text-2xl font-bold mb-4">Tu carrito está vacío</h2>
-        <Link to="/catalog" className="btn-primary">Ver Catálogo</Link>
+        <Link to="/" className="btn-primary">Ver productos</Link>
       </div>
     )
   }

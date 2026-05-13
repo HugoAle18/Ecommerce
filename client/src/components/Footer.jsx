@@ -54,20 +54,20 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-gray-300">Categorías</h4>
             <ul className="space-y-2.5">
-              <li><Link to="/catalog?category=audifonos" className="text-gray-400 hover:text-white text-sm transition-colors">Audífonos</Link></li>
-              <li><Link to="/catalog?category=cables" className="text-gray-400 hover:text-white text-sm transition-colors">Cables y Cargadores</Link></li>
-              <li><Link to="/catalog?category=accesorios" className="text-gray-400 hover:text-white text-sm transition-colors">Accesorios</Link></li>
-              <li><Link to="/catalog?category=smartwatches" className="text-gray-400 hover:text-white text-sm transition-colors">Smartwatches</Link></li>
+              <li><Link to="/?category=audifonos" className="text-gray-400 hover:text-white text-sm transition-colors">Audífonos</Link></li>
+              <li><Link to="/?category=cables" className="text-gray-400 hover:text-white text-sm transition-colors">Cables y Cargadores</Link></li>
+              <li><Link to="/?category=accesorios" className="text-gray-400 hover:text-white text-sm transition-colors">Accesorios</Link></li>
+              <li><Link to="/?category=smartwatches" className="text-gray-400 hover:text-white text-sm transition-colors">Smartwatches</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-gray-300">Ayuda</h4>
             <ul className="space-y-2.5">
-              <li><Link to="/catalog" className="text-gray-400 hover:text-white text-sm transition-colors">Estado del pedido</Link></li>
-              <li><Link to="/catalog" className="text-gray-400 hover:text-white text-sm transition-colors">Política de envíos</Link></li>
-              <li><Link to="/catalog" className="text-gray-400 hover:text-white text-sm transition-colors">Devoluciones</Link></li>
-              <li><Link to="/catalog" className="text-gray-400 hover:text-white text-sm transition-colors">Términos y condiciones</Link></li>
+              <li><Link to="/" className="text-gray-400 hover:text-white text-sm transition-colors">Estado del pedido</Link></li>
+              <li><Link to="/" className="text-gray-400 hover:text-white text-sm transition-colors">Política de envíos</Link></li>
+              <li><Link to="/" className="text-gray-400 hover:text-white text-sm transition-colors">Devoluciones</Link></li>
+              <li><Link to="/" className="text-gray-400 hover:text-white text-sm transition-colors">Términos y condiciones</Link></li>
             </ul>
           </div>
 

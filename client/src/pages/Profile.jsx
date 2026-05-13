@@ -72,7 +72,7 @@ const Profile = () => {
                 <div className="text-center py-8">
                   <Package className="w-12 h-12 mx-auto text-gray-400 mb-4" />
                   <p className="text-gray-500 mb-4">No tienes pedidos aún</p>
-                  <Link to="/catalog" className="btn-primary">Ver Catálogo</Link>
+                  <Link to="/" className="btn-primary">Ver productos</Link>
                 </div>
               ) : (
                 <div className="space-y-4">

@@ -14,7 +14,7 @@ const Cart = () => {
         <ShoppingBag className="w-16 h-16 mx-auto text-gray-400 mb-4" />
         <h2 className="text-2xl font-bold mb-4">Tu carrito está vacío</h2>
         <p className="text-gray-500 mb-6">¡Añade productos para comenzar!</p>
-        <Link to="/catalog" className="btn-primary">
+        <Link to="/" className="btn-primary">
           Ver Catálogo
         </Link>
       </div>
