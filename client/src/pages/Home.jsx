@@ -12,7 +12,9 @@ const Home = () => {
     const fetchFeatured = async () => {
       try {
         const res = await productsAPI.getFeatured()
-        setFeaturedProducts(res.data)
+        if (Array.isArray(res.data)) {
+          setFeaturedProducts(res.data)
+        }
       } catch (error) {
         console.error('Error fetching products:', error)
       } finally {

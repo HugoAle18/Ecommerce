@@ -27,8 +27,10 @@ const Catalog = () => {
     try {
       const params = Object.fromEntries(searchParams)
       const res = await productsAPI.getAll(params)
-      setProducts(res.data.products)
-      setPagination({ totalPages: res.data.totalPages, currentPage: res.data.currentPage })
+      if (res.data?.products && Array.isArray(res.data.products)) {
+        setProducts(res.data.products)
+        setPagination({ totalPages: res.data.totalPages, currentPage: res.data.currentPage })
+      }
     } catch (error) {
       console.error('Error:', error)
     } finally {

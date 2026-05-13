@@ -1,5 +1,7 @@
 {
   "rewrites": [
+    { "source": "/api/(.*)", "destination": "https://ecommerce-d8bt.onrender.com/api/$1" },
+    { "source": "/(assets|images|favicon.ico|robots.txt)(.*)", "destination": "/$1$2" },
     { "source": "/(.*)", "destination": "/" }
   ]
 }
