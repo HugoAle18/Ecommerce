@@ -10,13 +10,6 @@ const Navbar = () => {
   const { user, logout } = useAuth()
   const { itemCount } = useCart()
 
-  const categories = [
-    { name: 'Audífonos', slug: 'audifonos' },
-    { name: 'Cables', slug: 'cables' },
-    { name: 'Accesorios', slug: 'accesorios' },
-    { name: 'Smartwatches', slug: 'smartwatches' }
-  ]
-
   return (
     <nav className="bg-white/90 backdrop-blur-lg shadow-sm border-b border-gray-100 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -29,18 +22,6 @@ const Navbar = () => {
               TechZone
             </span>
           </Link>
-
-          <div className="hidden md:flex items-center gap-1 ml-8">
-            {categories.map(cat => (
-              <a
-                key={cat.slug}
-                href={`/?category=${cat.slug}`}
-                className="px-3 py-1.5 text-xs lg:text-sm text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg transition-colors font-medium"
-              >
-                {cat.name}
-              </a>
-            ))}
-          </div>
 
           <div className="flex items-center gap-2">
             <Link
@@ -116,16 +97,14 @@ const Navbar = () => {
         {menuOpen && (
           <div className="md:hidden py-3 border-t border-gray-100 animate-slide-up">
             <div className="flex flex-col gap-1">
-              {categories.map(cat => (
-                <a
-                  key={cat.slug}
-                  href={`/?category=${cat.slug}`}
-                  onClick={() => setMenuOpen(false)}
-                  className="px-3 py-2 rounded-xl hover:bg-gray-50 font-medium text-gray-700 text-sm"
-                >
-                  {cat.name}
-                </a>
-              ))}
+              <Link to="/profile" onClick={() => setMenuOpen(false)} className="px-3 py-2 rounded-xl hover:bg-gray-50 font-medium text-gray-700 text-sm">
+                Mi Perfil
+              </Link>
+              {!user && (
+                <Link to="/login" onClick={() => setMenuOpen(false)} className="px-3 py-2 rounded-xl hover:bg-gray-50 font-medium text-gray-700 text-sm">
+                  Iniciar sesión
+                </Link>
+              )}
             </div>
           </div>
         )}

@@ -3,36 +3,56 @@ import Cart from '../models/Cart.js'
 
 export const createOrder = async (req, res) => {
   try {
-    const { shippingAddress, paymentMethod, notes } = req.body
+    const { shippingAddress, paymentMethod, notes, items: selectedItems } = req.body
 
     const cart = await Cart.findOne({ user: req.user._id }).populate('items.product')
     if (!cart || cart.items.length === 0) {
       return res.status(400).json({ message: 'El carrito está vacío' })
     }
 
+    let cartItems = cart.items
+    if (selectedItems && selectedItems.length > 0) {
+      cartItems = cart.items.filter(item =>
+        selectedItems.includes(item.product._id.toString())
+      )
+      if (cartItems.length === 0) {
+        return res.status(400).json({ message: 'No hay productos seleccionados' })
+      }
+    }
+
+    const orderItems = cartItems.map(item => ({
+      product: item.product._id,
+      name: item.product.name,
+      image: item.product.images[0],
+      price: item.price,
+      priceUSD: item.priceUSD,
+      quantity: item.quantity
+    }))
+
+    const subtotal = orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+
     const order = await Order.create({
       user: req.user._id,
-      items: cart.items.map(item => ({
-        product: item.product._id,
-        name: item.product.name,
-        image: item.product.images[0],
-        price: item.price,
-        priceUSD: item.priceUSD,
-        quantity: item.quantity
-      })),
+      items: orderItems,
       shippingAddress,
       paymentMethod,
-      subtotal: cart.total,
-      subtotalUSD: cart.totalUSD,
+      subtotal,
+      subtotalUSD: subtotal,
       shippingCost: 0,
-      total: cart.total,
-      totalUSD: cart.totalUSD,
+      total: subtotal,
+      totalUSD: subtotal,
       notes
     })
 
+    const purchasedIds = orderItems.map(item => item.product.toString())
+    const remainingItems = cart.items.filter(item =>
+      !purchasedIds.includes(item.product._id.toString())
+    )
+    const newTotal = remainingItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+
     await Cart.findOneAndUpdate(
       { user: req.user._id },
-      { items: [], total: 0, totalUSD: 0 }
+      { items: remainingItems, total: newTotal, totalUSD: newTotal }
     )
 
     res.status(201).json(order)
