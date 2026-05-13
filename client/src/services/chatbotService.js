@@ -50,7 +50,7 @@ const knowledgeBase = {
     answer: '¡Hola! Soy el asistente virtual de TechZone. Estoy aquí para ayudarte a encontrar productos, resolver dudas sobre envíos, pagos o devoluciones. ¿En qué puedo ayudarte hoy?'
   },
   gracias: {
-    keywords: ['gracias', 'thank', 'thanks', 'vale', 'ok'],
+    keywords: ['gracias', 'thank', 'thanks'],
     answer: '¡De nada! Si tienes más preguntas, estoy aquí para ayudarte. ¡Que tengas un excelente día! 😊'
   },
   default: {
@@ -69,6 +69,7 @@ function findMatch(input) {
 
   for (const [, entry] of Object.entries(knowledgeBase)) {
     if (!entry.keywords) continue
+    if (entry.keywords.includes('gracias') && normalized.split(/\s+/).length > 5) continue
     const match = entry.keywords.some(kw => normalized.includes(normalize(kw)))
     if (match) return entry
   }
@@ -98,10 +99,6 @@ async function processUserMessage(input) {
     } catch {
       return 'Hubo un error al buscar productos. Intenta de nuevo más tarde.'
     }
-  }
-
-  if (match.action === 'searchCategory') {
-    return match.answer
   }
 
   if (conversationState.step === 'awaiting_search') {
