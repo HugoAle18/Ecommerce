@@ -52,11 +52,38 @@ export const CartProvider = ({ children }) => {
       return
     }
 
+    // Optimistic update - update UI immediately
+    setCart(prev => {
+      const existingItem = prev.items.find(i => i.product?._id === product._id)
+      let newItems
+      if (existingItem) {
+        newItems = prev.items.map(i => 
+          i.product?._id === product._id 
+            ? { ...i, quantity: i.quantity + quantity }
+            : i
+        )
+      } else {
+        newItems = [...prev.items, {
+          _id: `temp-${Date.now()}`,
+          product: { _id: product._id, name: product.name, images: product.images },
+          name: product.name,
+          image: product.images[0],
+          price: product.price,
+          priceUSD: product.priceUSD,
+          quantity
+        }]
+      }
+      const newTotal = newItems.reduce((sum, i) => sum + (i.price * i.quantity), 0)
+      const newTotalUSD = newItems.reduce((sum, i) => sum + (i.priceUSD * i.quantity), 0)
+      return { ...prev, items: newItems, total: newTotal, totalUSD: newTotalUSD }
+    })
+
     try {
       await cartAPI.addItem({ productId: product._id, quantity })
       await loadCart()
     } catch (error) {
       console.error('Error adding to cart:', error)
+      await loadCart()
     }
   }
 
@@ -77,11 +104,25 @@ export const CartProvider = ({ children }) => {
       return
     }
 
+    // Optimistic update - update UI immediately
+    setCart(prev => {
+      const newItems = prev.items.map(i => {
+        if ((i._id?.toString() || i.productId) === itemId) {
+          if (quantity <= 0) return null
+          return { ...i, quantity }
+        }
+        return i
+      }).filter(Boolean)
+      const newTotal = newItems.reduce((sum, i) => sum + (i.price * i.quantity), 0)
+      const newTotalUSD = newItems.reduce((sum, i) => sum + (i.priceUSD * i.quantity), 0)
+      return { ...prev, items: newItems, total: newTotal, totalUSD: newTotalUSD }
+    })
+
     try {
       await cartAPI.updateItem(itemId, { quantity })
-      await loadCart()
     } catch (error) {
       console.error('Error updating cart:', error)
+      await loadCart()
     }
   }
 
@@ -96,11 +137,19 @@ export const CartProvider = ({ children }) => {
       return
     }
 
+    // Optimistic update - update UI immediately
+    setCart(prev => {
+      const newItems = prev.items.filter(i => (i._id?.toString() || i.productId) !== itemId)
+      const newTotal = newItems.reduce((sum, i) => sum + (i.price * i.quantity), 0)
+      const newTotalUSD = newItems.reduce((sum, i) => sum + (i.priceUSD * i.quantity), 0)
+      return { ...prev, items: newItems, total: newTotal, totalUSD: newTotalUSD }
+    })
+
     try {
       await cartAPI.removeItem(itemId)
-      await loadCart()
     } catch (error) {
       console.error('Error removing from cart:', error)
+      await loadCart()
     }
   }
 
