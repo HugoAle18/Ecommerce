@@ -33,10 +33,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: err.message || 'Error interno del servidor' })
 })
 
-const start = async () => {
-  await connectDB()
-  app.listen(PORT, () => {
-    console.log(`Servidor corriendo en puerto ${PORT}`)
-  })
-}
-start()
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en puerto ${PORT}`)
+})
+connectDB()
