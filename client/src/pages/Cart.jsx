@@ -41,7 +41,7 @@ const Cart = () => {
 
                 <div className="flex-1">
                   <h3 className="font-semibold text-lg">{item.name || item.product?.name}</h3>
-                  <p className="text-gray-500 text-sm">Precio unitario: {formatPrice(price, currency)}</p>
+                  <p className="text-gray-500 text-sm">Precio unitario: {formatPrice(price, 'PEN')}</p>
 
                   <div className="flex items-center justify-between mt-4">
                     <div className="flex items-center border rounded-lg">
@@ -86,7 +86,7 @@ const Cart = () => {
             <div className="flex justify-between">
               <span className="text-gray-600">Subtotal</span>
               <span className="font-semibold">
-                {formatPrice(currency === 'USD' ? cart.totalUSD : cart.total, 'PEN')}
+                {formatPrice(cart.total, 'PEN')}
               </span>
             </div>
             <div className="flex justify-between">

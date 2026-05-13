@@ -8,7 +8,7 @@ import { CreditCard, Truck } from 'lucide-react'
 
 const Checkout = () => {
   const { user } = useAuth()
-  const { cart, currency } = useCart()
+  const { cart } = useCart()
   const navigate = useNavigate()
 
   const [formData, setFormData] = useState({
@@ -65,7 +65,7 @@ const Checkout = () => {
       if (formData.paymentMethod === 'card') {
         const paymentRes = await paymentAPI.createCheckout({
           orderId: order._id,
-          currency: currency.toLowerCase()
+          currency: 'pen'
         })
         window.location.href = paymentRes.data.url
       } else {
@@ -201,11 +201,10 @@ const Checkout = () => {
 
           <div className="space-y-2 mb-4">
             {cart.items.map((item, index) => {
-              const price = currency === 'USD' ? item.priceUSD : item.price
               return (
                 <div key={index} className="flex justify-between text-sm">
                   <span>{item.name || item.product?.name} x{item.quantity}</span>
-                  <span>{formatPrice(price * item.quantity, currency)}</span>
+                  <span>{formatPrice(item.price * item.quantity, 'PEN')}</span>
                 </div>
               )
             })}
@@ -214,7 +213,7 @@ const Checkout = () => {
           <div className="border-t pt-4">
             <div className="flex justify-between mb-2">
               <span>Subtotal</span>
-              <span>{formatPrice(currency === 'USD' ? cart.totalUSD : cart.total, currency)}</span>
+              <span>{formatPrice(cart.total, 'PEN')}</span>
             </div>
             <div className="flex justify-between mb-4">
               <span>Envío</span>
@@ -222,8 +221,8 @@ const Checkout = () => {
             </div>
             <div className="flex justify-between text-xl font-bold">
               <span>Total</span>
-              <span className="text-primary">
-                {formatPrice(currency === 'USD' ? cart.totalUSD : cart.total, currency)}
+              <span className="text-gray-900">
+                {formatPrice(cart.total, 'PEN')}
               </span>
             </div>
           </div>
