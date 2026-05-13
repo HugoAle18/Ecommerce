@@ -18,7 +18,8 @@ body {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f8fafc;
+  background-color: #F4F4F4;
+  color: #2D3436;
 }
 
 /* Custom scrollbar */
@@ -28,27 +29,27 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #F4F4F4;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #cbd5e1, #94a3b8);
+  background: linear-gradient(to bottom, #99bbff, #0057FF);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #94a3b8, #64748b);
+  background: linear-gradient(to bottom, #0057FF, #003dcc);
 }
 
 /* Selection color */
 ::selection {
-  background: rgba(59, 130, 246, 0.2);
-  color: #1e293b;
+  background: rgba(0, 87, 255, 0.15);
+  color: #2D3436;
 }
 
 /* Focus ring */
 *:focus-visible {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid #0057FF;
   outline-offset: 2px;
 }
 
@@ -82,11 +83,11 @@ img[src*="placeholder"] {
 
 /* Button styles */
 .btn-primary {
-  @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white font-semibold rounded-full hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 transition-all duration-300;
+  @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-full hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300;
 }
 
 .btn-secondary {
-  @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 text-gray-700 font-semibold rounded-full hover:bg-gray-200 transition-colors;
+  @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 text-secondary font-semibold rounded-full hover:bg-gray-200 transition-colors;
 }
 
 /* Smooth page transitions */

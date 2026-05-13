@@ -33,7 +33,7 @@ const ProductCard = ({ product }) => {
           />
           <div className="absolute top-3 left-3">
             {product.isFeatured && (
-              <span className="flex items-center gap-1 px-2 py-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-medium rounded-full">
+              <span className="flex items-center gap-1 px-2 py-1 bg-gradient-to-r from-accent to-accent-dark text-white text-xs font-medium rounded-full">
                 <Zap className="w-3 h-3" />
                 Destacado
               </span>

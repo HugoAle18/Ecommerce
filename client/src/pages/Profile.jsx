@@ -42,19 +42,19 @@ const Profile = () => {
           <nav className="bg-white rounded-lg shadow-md overflow-hidden">
             <button
               onClick={() => setActiveTab('orders')}
-              className={`w-full text-left px-6 py-4 flex items-center gap-3 hover:bg-gray-50 ${activeTab === 'orders' ? 'bg-blue-50 border-l-4 border-primary' : ''}`}
+              className={`w-full text-left px-6 py-4 flex items-center gap-3 hover:bg-gray-50 ${activeTab === 'orders' ? 'bg-primary-50 border-l-4 border-primary' : ''}`}
             >
               <Package className="w-5 h-5" /> Mis Pedidos
             </button>
             <button
               onClick={() => setActiveTab('profile')}
-              className={`w-full text-left px-6 py-4 flex items-center gap-3 hover:bg-gray-50 ${activeTab === 'profile' ? 'bg-blue-50 border-l-4 border-primary' : ''}`}
+              className={`w-full text-left px-6 py-4 flex items-center gap-3 hover:bg-gray-50 ${activeTab === 'profile' ? 'bg-primary-50 border-l-4 border-primary' : ''}`}
             >
               <User className="w-5 h-5" /> Mi Perfil
             </button>
             <button
               onClick={() => setActiveTab('addresses')}
-              className={`w-full text-left px-6 py-4 flex items-center gap-3 hover:bg-gray-50 ${activeTab === 'addresses' ? 'bg-blue-50 border-l-4 border-primary' : ''}`}
+              className={`w-full text-left px-6 py-4 flex items-center gap-3 hover:bg-gray-50 ${activeTab === 'addresses' ? 'bg-primary-50 border-l-4 border-primary' : ''}`}
             >
               <MapPin className="w-5 h-5" /> Mis Direcciones
             </button>
@@ -87,7 +87,7 @@ const Profile = () => {
                         </div>
                         <span className={`px-3 py-1 rounded-full text-sm ${
                           order.status === 'delivered' ? 'bg-green-100 text-green-800' :
-                          order.status === 'shipped' ? 'bg-blue-100 text-blue-800' :
+                          order.status === 'shipped' ? 'bg-primary-100 text-primary-800' :
                           order.status === 'cancelled' ? 'bg-red-100 text-red-800' :
                           'bg-yellow-100 text-yellow-800'
                         }`}>

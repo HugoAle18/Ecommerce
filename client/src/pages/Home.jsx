@@ -33,7 +33,7 @@ const Home = () => {
 
   const benefits = [
     { icon: Truck, title: 'Envío Gratis', desc: 'Pedidos mayores a S/200', color: 'text-green-500' },
-    { icon: Shield, title: 'Garantía', desc: '6 meses en productos', color: 'text-blue-500' },
+    { icon: Shield, title: 'Garantía', desc: '6 meses en productos', color: 'text-primary-500' },
     { icon: RefreshCw, title: 'Devolución', desc: 'Hasta 7 días hábiles', color: 'text-orange-500' },
     { icon: HeadphonesIcon, title: 'Soporte', desc: 'Atención 24/7', color: 'text-purple-500' }
   ]
@@ -94,7 +94,7 @@ const Home = () => {
                     <p className="text-sm text-gray-300">Calidad de sonido superior</p>
                   </div>
                   <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10">
-                    <Cable className="w-16 h-16 text-blue-400 mb-3" />
+                    <Cable className="w-16 h-16 text-primary-400 mb-3" />
                     <h3 className="font-semibold">Carga Rápida</h3>
                     <p className="text-sm text-gray-300">GaN Technology</p>
                   </div>
