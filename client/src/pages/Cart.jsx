@@ -3,6 +3,8 @@ import { useCart } from '../context/CartContext'
 import { formatPrice } from '../utils/formatPrice'
 import { Trash2, Minus, Plus, ShoppingBag } from 'lucide-react'
 
+const PLACEHOLDER = 'https://placehold.co/200x200/e2e8f0/475569?text=TechZone'
+
 const Cart = () => {
   const { cart, updateQuantity, removeItem } = useCart()
 
@@ -33,8 +35,9 @@ const Cart = () => {
               <div key={itemId} className="bg-white p-4 rounded-lg shadow-md flex gap-4">
                 <div className="w-24 h-24 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
                   <img 
-                    src={item.image || item.product?.images?.[0] || '/placeholder.jpg'} 
+                    src={item.image || item.product?.images?.[0] || PLACEHOLDER} 
                     alt={item.name}
+                    onError={(e) => { e.target.src = PLACEHOLDER }}
                     className="w-full h-full object-cover"
                   />
                 </div>

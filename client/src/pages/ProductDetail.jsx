@@ -5,11 +5,14 @@ import { useCart } from '../context/CartContext'
 import { formatPrice } from '../utils/formatPrice'
 import { ShoppingCart, Heart, Star, Minus, Plus } from 'lucide-react'
 
+const PLACEHOLDER = 'https://placehold.co/600x600/e2e8f0/475569?text=TechZone'
+
 const ProductDetail = () => {
   const { slug } = useParams()
   const [product, setProduct] = useState(null)
   const [quantity, setQuantity] = useState(1)
   const [loading, setLoading] = useState(true)
+  const [imgError, setImgError] = useState(false)
   const { addToCart } = useCart()
 
   useEffect(() => {
@@ -36,8 +39,9 @@ const ProductDetail = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="bg-gray-100 rounded-lg overflow-hidden">
           <img 
-            src={product.images[0] || '/placeholder.jpg'} 
+            src={imgError ? PLACEHOLDER : (product.images[0] || PLACEHOLDER)} 
             alt={product.name}
+            onError={() => setImgError(true)}
             className="w-full h-full object-cover"
           />
         </div>

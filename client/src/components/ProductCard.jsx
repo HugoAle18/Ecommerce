@@ -4,10 +4,13 @@ import { useState } from 'react'
 import { useCart } from '../context/CartContext'
 import { formatPrice } from '../utils/formatPrice'
 
+const PLACEHOLDER = 'https://placehold.co/400x400/e2e8f0/475569?text=TechZone'
+
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart()
   const [isHovered, setIsHovered] = useState(false)
   const [isAdding, setIsAdding] = useState(false)
+  const [imgError, setImgError] = useState(false)
   const price = product.price
   const rating = Math.round(product.averageRating || 0)
 
@@ -27,8 +30,9 @@ const ProductCard = ({ product }) => {
       <Link to={`/product/${product.slug}`}>
         <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden rounded-t-2xl">
           <img 
-            src={product.images[0] || '/placeholder.jpg'} 
+            src={imgError ? PLACEHOLDER : (product.images[0] || PLACEHOLDER)} 
             alt={product.name}
+            onError={() => setImgError(true)}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
           <div className="absolute top-3 left-3">
