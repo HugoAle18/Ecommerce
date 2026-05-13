@@ -53,8 +53,8 @@ export const CartProvider = ({ children }) => {
     }
 
     try {
-      const res = await cartAPI.addItem({ productId: product._id, quantity })
-      setCart(res.data)
+      await cartAPI.addItem({ productId: product._id, quantity })
+      await loadCart()
     } catch (error) {
       console.error('Error adding to cart:', error)
     }
@@ -78,8 +78,8 @@ export const CartProvider = ({ children }) => {
     }
 
     try {
-      const res = await cartAPI.updateItem(itemId, { quantity })
-      setCart(res.data)
+      await cartAPI.updateItem(itemId, { quantity })
+      await loadCart()
     } catch (error) {
       console.error('Error updating cart:', error)
     }
@@ -97,8 +97,8 @@ export const CartProvider = ({ children }) => {
     }
 
     try {
-      const res = await cartAPI.removeItem(itemId)
-      setCart(res.data)
+      await cartAPI.removeItem(itemId)
+      await loadCart()
     } catch (error) {
       console.error('Error removing from cart:', error)
     }
