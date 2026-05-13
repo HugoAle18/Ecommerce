@@ -27,7 +27,7 @@ const Cart = () => {
         <div className="lg:col-span-2 space-y-4">
           {cart.items.map(item => {
             const price = currency === 'USD' ? item.priceUSD : item.price
-            const itemId = item.product?._id || item.productId
+            const itemId = item._id || item.productId
 
             return (
               <div key={itemId} className="bg-white p-4 rounded-lg shadow-md flex gap-4">

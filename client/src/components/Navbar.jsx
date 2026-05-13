@@ -6,6 +6,7 @@ import { useCart } from '../context/CartContext'
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [profileOpen, setProfileOpen] = useState(false)
   const { user, logout } = useAuth()
   const { itemCount, currency, setCurrency } = useCart()
 
@@ -39,17 +40,34 @@ const Navbar = () => {
             </Link>
 
             {user ? (
-              <div className="relative group">
-                <button className="flex items-center space-x-1">
+              <div className="relative">
+                <button
+                  onClick={() => setProfileOpen(!profileOpen)}
+                  className="flex items-center space-x-1 cursor-pointer"
+                >
                   <User className="w-6 h-6" />
                   <span className="hidden sm:inline text-sm">{user.name}</span>
                 </button>
-                <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg hidden group-hover:block">
-                  <Link to="/profile" className="block px-4 py-2 hover:bg-gray-100">Mi Perfil</Link>
-                  <button onClick={logout} className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-red-500">
-                    Cerrar sesión
-                  </button>
-                </div>
+                {profileOpen && (
+                  <>
+                    <div className="fixed inset-0 z-10" onClick={() => setProfileOpen(false)} />
+                    <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg z-20">
+                      <Link
+                        to="/profile"
+                        onClick={() => setProfileOpen(false)}
+                        className="block px-4 py-2 hover:bg-gray-100"
+                      >
+                        Mi Perfil
+                      </Link>
+                      <button
+                        onClick={() => { logout(); setProfileOpen(false) }}
+                        className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-red-500"
+                      >
+                        Cerrar sesión
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
             ) : (
               <Link to="/login" className="text-sm hover:text-primary">Iniciar sesión</Link>
