@@ -30,6 +30,11 @@ app.use('/api/products', productRoutes)
 app.use('/api/cart', cartRoutes)
 app.use('/api/orders', orderRoutes)
 
+app.use((err, req, res, next) => {
+  console.error(err.stack)
+  res.status(500).json({ error: err.message || 'Error interno del servidor' })
+})
+
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en puerto ${PORT}`)
 })
