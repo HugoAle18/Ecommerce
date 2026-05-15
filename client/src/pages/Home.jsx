@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useCallback } from 'react'
 import { productsAPI } from '../services/api'
 import ProductCard from '../components/ProductCard'
-import { ArrowRight, Star, Zap, Sparkles, MessageCircle, Heart } from 'lucide-react'
+import { ArrowRight, Star, Zap, Sparkles, MessageCircle, Heart, Package } from 'lucide-react'
 
 const CATEGORY_NAMES = {
   audifonos: 'Audífonos',
@@ -11,52 +10,57 @@ const CATEGORY_NAMES = {
   smartwatches: 'Smartwatches'
 }
 
+const CATEGORY_ICONS = {
+  audifonos: '🎧',
+  cables: '🔌',
+  accesorios: '📱',
+  smartwatches: '⌚'
+}
+
 const testimonials = [
   { text: 'Llegó en 2 días, excelente calidad!', user: 'María G.', x: '10%', y: '15%', delay: 'animate-float' },
-  { text: 'Me encantó, sonido increíble 🎧', user: 'Carlos R.', x: '70%', y: '25%', delay: 'animate-float-delayed' },
+  { text: 'Me encantó, sonido increíble', user: 'Carlos R.', x: '70%', y: '25%', delay: 'animate-float-delayed' },
   { text: 'Súper recomendado, volveré a comprar', user: 'Lucía M.', x: '15%', y: '55%', delay: 'animate-float-slow' },
   { text: 'El mejor precio que encontré!', user: 'Pedro L.', x: '72%', y: '60%', delay: 'animate-float' },
 ]
 
+const benefits = [
+  { icon: Zap, title: 'Envío Gratis', desc: 'Pedidos mayores a S/200' },
+  { icon: Star, title: 'Garantía 6 meses', desc: 'En todos los productos' },
+  { icon: Heart, title: 'Pago Seguro', desc: 'Stripe protegido' },
+  { icon: Package, title: 'Soporte 24/7', desc: 'Atención inmediata' },
+]
+
 const Home = () => {
-  const [products, setProducts] = useState([])
-  const [loading, setLoading] = useState(true)
   const [activeCategory, setActiveCategory] = useState(null)
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(false)
   const [showComments, setShowComments] = useState(true)
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    const cat = params.get('category')
-    if (cat) setActiveCategory(cat)
-  }, [])
+  const handleCategoryClick = useCallback(async (slug) => {
+    if (slug === activeCategory) return
+    setActiveCategory(slug)
+    setProducts([])
+    setLoading(true)
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await productsAPI.getAll({ limit: 50 })
-        if (res.data?.products && Array.isArray(res.data.products)) {
-          setProducts(res.data.products)
-        }
-      } catch (error) {
-        console.error('Error fetching products:', error)
-      } finally {
-        setLoading(false)
+    try {
+      const res = await productsAPI.getAll({ category: slug, limit: 50 })
+      if (res.data?.products && Array.isArray(res.data.products)) {
+        setProducts(res.data.products)
       }
+    } catch (error) {
+      console.error('Error fetching products:', error)
+    } finally {
+      setLoading(false)
     }
-    fetchProducts()
-  }, [])
+
+    setTimeout(() => {
+      const el = document.getElementById('cat-products')
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 100)
+  }, [activeCategory])
 
   const categories = ['audifonos', 'cables', 'accesorios', 'smartwatches']
-  const grouped = categories.reduce((acc, cat) => {
-    acc[cat] = products.filter(p => p.category === cat)
-    return acc
-  }, {})
-
-  const handleCategoryClick = (slug) => {
-    setActiveCategory(slug)
-    const el = document.getElementById(`cat-${slug}`)
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
 
   return (
     <div className="animate-fade-in">
@@ -81,7 +85,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Playful Hero */}
+      {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-[#0f1117] to-gray-900 text-white">
         <div className="absolute inset-0 bg-dots opacity-50" />
         <div className="absolute top-10 right-10 hidden lg:block">
@@ -91,7 +95,6 @@ const Home = () => {
           <Star className="w-5 h-5 text-primary-300 animate-float" />
         </div>
 
-        {/* Floating comments - desktop only */}
         {showComments && (
           <div className="hidden lg:block">
             {testimonials.map((t, i) => (
@@ -127,12 +130,12 @@ const Home = () => {
               </h1>
               <p className="text-sm text-gray-300 max-w-xl mx-auto lg:mx-0 mb-6 leading-relaxed">
                 Audífonos, cargadores, accesorios y smartwatches. 
-                Envío rápido a todo Perú con garantía incluida. 
-                <span className="block mt-1 text-primary-300 font-medium">+1000 clientes felices ✨</span>
+                Envío rápido a todo Perú con garantía incluida.
+                <span className="block mt-1 text-primary-300 font-medium">+1000 clientes felices</span>
               </p>
               <div className="flex items-center gap-3 justify-center lg:justify-start">
                 <button
-                  onClick={() => document.getElementById('cat-audifonos')?.scrollIntoView({ behavior: 'smooth' })}
+                  onClick={() => handleCategoryClick('audifonos')}
                   className="inline-flex items-center gap-1.5 px-6 py-2.5 bg-gradient-to-r from-primary to-primary-600 rounded-full font-semibold text-sm shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all"
                 >
                   Comprar ahora
@@ -168,54 +171,76 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Products by Category */}
-      {loading ? (
-        <div className="max-w-7xl mx-auto px-4 py-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
-            {[1,2,3,4,5,6,7,8].map(i => (
-              <div key={i} className="bg-white dark:bg-[#181b2a] rounded-xl h-52 animate-pulse" />
-            ))}
-          </div>
-        </div>
-      ) : (
-        categories.map(cat => {
-          const catProducts = grouped[cat]
-          if (!catProducts || catProducts.length === 0) return null
-          return (
-            <section key={cat} id={`cat-${cat}`} className={`py-8 lg:py-10 ${cat === 'audifonos' ? 'bg-white dark:bg-[#181b2a]' : 'bg-gray-50 dark:bg-[#1a1d27]'} even:bg-gray-50 dark:even:bg-[#1a1d27]`}>
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between mb-5">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-primary-600 flex items-center justify-center shadow-sm">
-                      <Zap className="w-4 h-4 text-white" />
-                    </div>
-                    <div>
-                      <h2 className="text-lg lg:text-xl font-bold text-gray-900 dark:text-gray-100">
-                        {CATEGORY_NAMES[cat]}
-                      </h2>
-                      <p className="text-[10px] text-gray-400">{catProducts.length} productos</p>
-                    </div>
+      {/* Benefits / Promo section (always visible when no category selected) */}
+      {!activeCategory && (
+        <section className="py-10 lg:py-14 bg-white dark:bg-[#181b2a]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-8">
+              <h2 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+                ¿Por qué elegir TechZone?
+              </h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                La mejor experiencia de compra en tecnología
+              </p>
+            </div>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+              {benefits.map((benefit, i) => (
+                <div key={i} className="text-center p-5 rounded-xl bg-gray-50 dark:bg-[#1a1d27] border border-gray-100 dark:border-gray-800 hover:shadow-fun transition-all">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-600 flex items-center justify-center mx-auto mb-3 shadow-sm">
+                    <benefit.icon className="w-5 h-5 text-white" />
                   </div>
-                  <Link
-                    to={`/?category=${cat}`}
-                    className="text-xs text-primary hover:text-primary-600 font-medium flex items-center gap-1 group"
-                  >
-                    Ver todo
-                    <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                  </Link>
+                  <h3 className="font-semibold text-sm text-gray-900 dark:text-gray-100 mb-1">{benefit.title}</h3>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{benefit.desc}</p>
                 </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Selected Category Products */}
+      <div id="cat-products">
+        {activeCategory && (
+          <section className="py-8 lg:py-10 bg-gray-50 dark:bg-[#1a1d27]">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-primary-600 flex items-center justify-center shadow-sm">
+                  <Zap className="w-4 h-4 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-lg lg:text-xl font-bold text-gray-900 dark:text-gray-100">
+                    {CATEGORY_NAMES[activeCategory]}
+                  </h2>
+                  <p className="text-[10px] text-gray-400">
+                    {loading ? 'Cargando...' : `${products.length} productos`}
+                  </p>
+                </div>
+              </div>
+
+              {loading ? (
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
-                  {catProducts.slice(0, 8).map(product => (
+                  {[1,2,3,4,5,6,7,8].map(i => (
+                    <div key={i} className="bg-white dark:bg-[#181b2a] rounded-xl h-52 animate-pulse" />
+                  ))}
+                </div>
+              ) : products.length === 0 ? (
+                <div className="text-center py-12 text-gray-500 dark:text-gray-400">
+                  <Package className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                  <p className="text-sm">No hay productos en esta categoría</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+                  {products.map(product => (
                     <ProductCard key={product._id} product={product} />
                   ))}
                 </div>
-              </div>
-            </section>
-          )
-        })
-      )}
+              )}
+            </div>
+          </section>
+        )}
+      </div>
 
-      {/* Fun CTA */}
+      {/* CTA */}
       <section className="relative overflow-hidden py-10 lg:py-14 bg-gradient-to-r from-primary via-primary-600 to-purple-600">
         <div className="absolute inset-0 bg-dots opacity-20" />
         <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/5 rounded-full blur-3xl" />
@@ -233,7 +258,7 @@ const Home = () => {
           </p>
           <div className="flex items-center justify-center gap-3">
             <button
-              onClick={() => document.getElementById('cat-audifonos')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => handleCategoryClick('audifonos')}
               className="inline-flex items-center gap-1.5 px-6 py-2.5 bg-white text-primary rounded-full font-bold text-sm shadow-lg hover:shadow-xl hover:scale-105 transition-all"
             >
               Ver productos
