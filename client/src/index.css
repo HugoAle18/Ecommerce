@@ -20,6 +20,22 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #F4F4F4;
   color: #2D3436;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark body,
+body.dark {
+  background-color: #0f1117;
+  color: #e2e8f0;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+.dark ::selection {
+  background: rgba(0, 87, 255, 0.3);
+  color: #ffffff;
 }
 
 /* Custom scrollbar */
@@ -32,9 +48,17 @@ body {
   background: #F4F4F4;
 }
 
+.dark ::-webkit-scrollbar-track {
+  background: #1a1d27;
+}
+
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(to bottom, #99bbff, #0057FF);
   border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #3378ff, #0057FF);
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -53,12 +77,12 @@ body {
   outline-offset: 2px;
 }
 
-/* Smooth transitions for interactive elements */
+/* Smooth transitions */
 button, a, input, select, textarea {
   transition: all 0.2s ease;
 }
 
-/* Image lazy loading placeholder */
+/* Image placeholder */
 img[src*="placeholder"] {
   background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
   background-size: 200% 100%;
@@ -70,14 +94,69 @@ img[src*="placeholder"] {
   100% { background-position: -200% 0; }
 }
 
+/* Floating comment bubble */
+.floating-comment {
+  position: absolute;
+  background: white;
+  border-radius: 18px;
+  padding: 12px 18px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+  max-width: 220px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.dark .floating-comment {
+  background: #1e2235;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.floating-comment::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 24px;
+  width: 16px;
+  height: 16px;
+  background: inherit;
+  transform: rotate(45deg);
+  border-radius: 0 0 4px 0;
+}
+
+.floating-comment.right::after {
+  left: auto;
+  right: 24px;
+  border-radius: 0 0 0 4px;
+}
+
+/* Dark mode card glow */
+.dark .card-glow {
+  box-shadow: 0 0 20px rgba(0, 87, 255, 0.08), 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
 /* Custom utilities */
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
-  
+
   .animate-in {
     animation: fadeIn 0.3s ease-out;
+  }
+
+  .bg-dots {
+    background-image: radial-gradient(rgba(0, 87, 255, 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .dark .bg-dots {
+    background-image: radial-gradient(rgba(0, 87, 255, 0.15) 1px, transparent 1px);
+  }
+
+  .bg-grid {
+    background-image: linear-gradient(rgba(0, 87, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 87, 255, 0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
   }
 }
 
@@ -90,7 +169,11 @@ img[src*="placeholder"] {
   @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 text-secondary font-semibold rounded-full hover:bg-gray-200 transition-colors;
 }
 
-/* Smooth page transitions */
+.dark .btn-secondary {
+  @apply bg-gray-800 text-gray-200 hover:bg-gray-700;
+}
+
+/* Page transitions */
 .page-enter {
   opacity: 0;
   transform: translateY(10px);
@@ -100,4 +183,49 @@ img[src*="placeholder"] {
   opacity: 1;
   transform: translateY(0);
   transition: opacity 0.3s, transform 0.3s;
+}
+
+/* Dark mode card defaults */
+.dark .bg-white {
+  background-color: #181b2a;
+}
+
+.dark .bg-gray-50 {
+  background-color: #1a1d27;
+}
+
+.dark .bg-gray-100 {
+  background-color: #1e2235;
+}
+
+.dark .border-gray-100 {
+  border-color: #2a2d3e;
+}
+
+.dark .text-gray-900 {
+  color: #e2e8f0;
+}
+
+.dark .text-gray-700 {
+  color: #cbd5e1;
+}
+
+.dark .text-gray-600 {
+  color: #94a3b8;
+}
+
+.dark .text-gray-500 {
+  color: #64748b;
+}
+
+.dark .text-gray-400 {
+  color: #475569;
+}
+
+.dark .hover\:bg-gray-100:hover {
+  background-color: #2a2d3e;
+}
+
+.dark .hover\:bg-gray-50:hover {
+  background-color: #1e2235;
 }

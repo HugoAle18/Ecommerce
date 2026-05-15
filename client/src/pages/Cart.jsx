@@ -52,12 +52,12 @@ const Cart = () => {
         {steps.map((step, i) => (
           <div key={i} className="flex items-center gap-2">
             <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${
-              i === 0 ? 'bg-primary text-white shadow-sm' : 'text-gray-400'
+              i === 0 ? 'bg-primary text-white shadow-sm' : 'text-gray-400 dark:text-gray-500'
             }`}>
               {i === 0 && <Check className="w-3 h-3" />}
               {step}
             </div>
-            {i < steps.length - 1 && <span className="text-gray-300 text-xs">{'›'}</span>}
+            {i < steps.length - 1 && <span className="text-gray-300 dark:text-gray-600 text-xs">{'›'}</span>}
           </div>
         ))}
       </div>
@@ -67,7 +67,7 @@ const Cart = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-3">
           {/* Select All */}
-          <div className="bg-white px-4 py-2.5 rounded-lg shadow-sm border border-gray-100 flex items-center gap-3">
+          <div className="bg-white dark:bg-[#181b2a] px-4 py-2.5 rounded-lg shadow-sm border border-gray-100 dark:border-gray-800 flex items-center gap-3">
             <button
               onClick={toggleSelectAll}
               className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${
@@ -88,8 +88,8 @@ const Cart = () => {
             const isSelected = selectedIds.includes(itemId)
 
             return (
-              <div key={itemId} className={`bg-white p-3 lg:p-4 rounded-lg shadow-sm border transition-colors ${
-                isSelected ? 'border-primary/30 bg-primary-50/30' : 'border-gray-100'
+              <div key={itemId} className={`bg-white dark:bg-[#181b2a] p-3 lg:p-4 rounded-lg shadow-sm border transition-colors ${
+                isSelected ? 'border-primary/30 bg-primary-50/30 dark:border-primary/40 dark:bg-primary-900/20' : 'border-gray-100 dark:border-gray-800'
               }`}>
                 <div className="flex gap-3">
                   <button
@@ -151,8 +151,8 @@ const Cart = () => {
         </div>
 
         <div>
-          <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-100 sticky top-20">
-            <h3 className="font-bold text-base mb-4">Resumen del Pedido</h3>
+          <div className="bg-white dark:bg-[#181b2a] p-5 rounded-lg shadow-sm border border-gray-100 dark:border-gray-800 sticky top-20">
+            <h3 className="font-bold text-base mb-4 dark:text-gray-100">Resumen del Pedido</h3>
 
             <div className="space-y-2 mb-4 text-sm">
               <div className="flex justify-between">

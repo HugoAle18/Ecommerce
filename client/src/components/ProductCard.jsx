@@ -21,29 +21,30 @@ const ProductCard = ({ product }) => {
   }
 
   return (
-    <div className="group relative bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
+    <div className="group relative bg-white dark:bg-[#181b2a] rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-fun dark:hover:shadow-fun-hover transition-all duration-300 hover:-translate-y-1">
       <Link to={`/product/${product.slug}`}>
-        <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden rounded-t-xl">
+        <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 relative overflow-hidden rounded-t-xl">
           <img
             src={imgError ? PLACEHOLDER : (product.images[0] || PLACEHOLDER)}
             alt={product.name}
             onError={() => setImgError(true)}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:rotate-1"
           />
           {product.isFeatured && (
             <div className="absolute top-2 left-2">
-              <span className="flex items-center gap-1 px-1.5 py-0.5 bg-gradient-to-r from-accent to-accent-dark text-white text-[10px] font-medium rounded-md">
+              <span className="flex items-center gap-1 px-1.5 py-0.5 bg-gradient-to-r from-accent to-accent-dark text-white text-[10px] font-medium rounded-md shadow-sm animate-bounce-soft">
                 <Zap className="w-2.5 h-2.5" />
                 Destacado
               </span>
             </div>
           )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
         </div>
       </Link>
 
       <div className="p-2.5 lg:p-3">
         <Link to={`/product/${product.slug}`}>
-          <h3 className="font-medium text-gray-900 text-xs lg:text-sm leading-tight line-clamp-2 hover:text-primary transition-colors mb-1.5">
+          <h3 className="font-medium text-gray-900 dark:text-gray-100 text-xs lg:text-sm leading-tight line-clamp-2 hover:text-primary dark:hover:text-primary-400 transition-colors mb-1.5">
             {product.name}
           </h3>
         </Link>
@@ -53,20 +54,20 @@ const ProductCard = ({ product }) => {
             {[...Array(5)].map((_, i) => (
               <Star
                 key={i}
-                className={`w-3 h-3 ${i < rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-200'}`}
+                className={`w-3 h-3 ${i < rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-200 dark:text-gray-700'}`}
               />
             ))}
           </div>
-          <span className="text-[10px] text-gray-400">({product.ratings?.length || 0})</span>
+          <span className="text-[10px] text-gray-400 dark:text-gray-500">({product.ratings?.length || 0})</span>
         </div>
 
         <div className="flex items-center justify-between">
           <div>
-            <span className="text-sm lg:text-base font-bold text-gray-900">
+            <span className="text-sm lg:text-base font-bold text-gray-900 dark:text-gray-100">
               {formatPrice(price, 'PEN')}
             </span>
             {price > 200 && (
-              <p className="text-[10px] text-green-600 font-medium">Envío gratis</p>
+              <p className="text-[10px] text-green-600 dark:text-green-400 font-medium">Envío gratis</p>
             )}
           </div>
           <button
@@ -74,12 +75,12 @@ const ProductCard = ({ product }) => {
             disabled={isAdding}
             className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 ${
               isAdding
-                ? 'bg-green-500 text-white'
-                : 'bg-gradient-to-r from-primary to-primary-600 text-white shadow-sm hover:shadow-md hover:shadow-primary/30'
+                ? 'bg-green-500 text-white scale-110'
+                : 'bg-gradient-to-r from-primary to-primary-600 text-white shadow-sm hover:shadow-md hover:shadow-primary/30 hover:scale-110 active:scale-95'
             }`}
           >
             {isAdding ? (
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4 animate-bounce-soft" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             ) : (

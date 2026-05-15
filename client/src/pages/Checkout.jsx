@@ -110,12 +110,12 @@ const Checkout = () => {
         {steps.map((step, i) => (
           <div key={i} className="flex items-center gap-2">
             <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${
-              i === 1 ? 'bg-primary text-white shadow-sm' : 'text-gray-400'
-            } ${i < 1 ? 'bg-green-50 text-green-600' : ''}`}>
+              i === 1 ? 'bg-primary text-white shadow-sm' : 'text-gray-400 dark:text-gray-500'
+            } ${i < 1 ? 'bg-green-50 text-green-600 dark:bg-green-900/30 dark:text-green-400' : ''}`}>
               {i < 1 && <Check className="w-3 h-3" />}
               {step}
             </div>
-            {i < steps.length - 1 && <span className="text-gray-300 text-xs">{'›'}</span>}
+            {i < steps.length - 1 && <span className="text-gray-300 dark:text-gray-600 text-xs">{'›'}</span>}
           </div>
         ))}
       </div>
@@ -124,8 +124,8 @@ const Checkout = () => {
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-5">
-          <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-100">
-            <h2 className="font-bold text-base mb-4 flex items-center gap-2">
+          <div className="bg-white dark:bg-[#181b2a] p-5 rounded-lg shadow-sm border border-gray-100 dark:border-gray-800">
+            <h2 className="font-bold text-base mb-4 flex items-center gap-2 dark:text-gray-100">
               <Truck className="w-4 h-4 text-primary" /> Datos de Envío
             </h2>
 
@@ -203,8 +203,8 @@ const Checkout = () => {
             </div>
           </div>
 
-          <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-100">
-            <h2 className="font-bold text-base mb-4 flex items-center gap-2">
+          <div className="bg-white dark:bg-[#181b2a] p-5 rounded-lg shadow-sm border border-gray-100 dark:border-gray-800">
+            <h2 className="font-bold text-base mb-4 flex items-center gap-2 dark:text-gray-100">
               <CreditCard className="w-4 h-4 text-primary" /> Método de Pago
             </h2>
 
@@ -237,8 +237,8 @@ const Checkout = () => {
         </div>
 
         <div>
-          <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-100 sticky top-20">
-            <h3 className="font-bold text-base mb-4">Resumen del Pedido</h3>
+          <div className="bg-white dark:bg-[#181b2a] p-5 rounded-lg shadow-sm border border-gray-100 dark:border-gray-800 sticky top-20">
+            <h3 className="font-bold text-base mb-4 dark:text-gray-100">Resumen del Pedido</h3>
 
             <div className="space-y-2 mb-4">
               {selectedItems.map((item, index) => (
