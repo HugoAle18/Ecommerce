@@ -1,7 +1,7 @@
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import { productsAPI } from '../services/api'
 import ProductCard from '../components/ProductCard'
-import { ArrowRight, Sparkles, Star, Package, Headphones, Cable, Smartphone, Watch } from 'lucide-react'
+import { ArrowRight, Sparkles, Star, Package, Headphones, Cable, Smartphone, Watch, Zap } from 'lucide-react'
 
 const CATEGORY_NAMES = {
   audifonos: 'Audífonos',
@@ -29,8 +29,7 @@ const Home = () => {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(false)
 
-  const handleCategoryClick = useCallback(async (slug) => {
-    if (slug === activeCategory) return
+  const handleCategoryClick = async (slug) => {
     setActiveCategory(slug)
     setProducts([])
     setLoading(true)
@@ -39,9 +38,12 @@ const Home = () => {
       const res = await productsAPI.getAll({ category: slug, limit: 50 })
       if (res.data?.products && Array.isArray(res.data.products)) {
         setProducts(res.data.products)
+      } else {
+        setProducts([])
       }
     } catch (error) {
       console.error('Error fetching products:', error)
+      setProducts([])
     } finally {
       setLoading(false)
     }
@@ -49,8 +51,8 @@ const Home = () => {
     setTimeout(() => {
       const el = document.getElementById('cat-products')
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }, 100)
-  }, [activeCategory])
+    }, 150)
+  }
 
   const categories = ['audifonos', 'cables', 'accesorios', 'smartwatches']
 
