@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react'
 import { productsAPI } from '../services/api'
 import ProductCard from '../components/ProductCard'
-import { ArrowRight, Star, Zap, Sparkles, MessageCircle, Heart, Package } from 'lucide-react'
+import { ArrowRight, Sparkles, Star, Package, Headphones, Cable, Smartphone, Watch } from 'lucide-react'
 
 const CATEGORY_NAMES = {
   audifonos: 'Audífonos',
@@ -10,32 +10,24 @@ const CATEGORY_NAMES = {
   smartwatches: 'Smartwatches'
 }
 
-const CATEGORY_ICONS = {
-  audifonos: '🎧',
-  cables: '🔌',
-  accesorios: '📱',
-  smartwatches: '⌚'
+const CATEGORY_IMAGES = {
+  audifonos: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=400&fit=crop',
+  cables: 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=600&h=400&fit=crop',
+  accesorios: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=600&h=400&fit=crop',
+  smartwatches: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=400&fit=crop'
 }
 
-const testimonials = [
-  { text: 'Llegó en 2 días, excelente calidad!', user: 'María G.', x: '10%', y: '15%', delay: 'animate-float' },
-  { text: 'Me encantó, sonido increíble', user: 'Carlos R.', x: '70%', y: '25%', delay: 'animate-float-delayed' },
-  { text: 'Súper recomendado, volveré a comprar', user: 'Lucía M.', x: '15%', y: '55%', delay: 'animate-float-slow' },
-  { text: 'El mejor precio que encontré!', user: 'Pedro L.', x: '72%', y: '60%', delay: 'animate-float' },
-]
-
-const benefits = [
-  { icon: Zap, title: 'Envío Gratis', desc: 'Pedidos mayores a S/200' },
-  { icon: Star, title: 'Garantía 6 meses', desc: 'En todos los productos' },
-  { icon: Heart, title: 'Pago Seguro', desc: 'Stripe protegido' },
-  { icon: Package, title: 'Soporte 24/7', desc: 'Atención inmediata' },
-]
+const CATEGORY_ICONS = {
+  audifonos: Headphones,
+  cables: Cable,
+  accesorios: Smartphone,
+  smartwatches: Watch
+}
 
 const Home = () => {
   const [activeCategory, setActiveCategory] = useState(null)
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(false)
-  const [showComments, setShowComments] = useState(true)
 
   const handleCategoryClick = useCallback(async (slug) => {
     if (slug === activeCategory) return
@@ -95,26 +87,6 @@ const Home = () => {
           <Star className="w-5 h-5 text-primary-300 animate-float" />
         </div>
 
-        {showComments && (
-          <div className="hidden lg:block">
-            {testimonials.map((t, i) => (
-              <div
-                key={i}
-                className={`floating-comment ${i % 2 === 0 ? '' : 'right'} ${t.delay}`}
-                style={{ left: t.x, top: t.y }}
-              >
-                <div className="flex items-center gap-1 mb-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-2.5 h-2.5 text-yellow-400 fill-yellow-400" />
-                  ))}
-                </div>
-                <p className="text-xs text-gray-700 dark:text-gray-200 leading-relaxed">{t.text}</p>
-                <p className="text-[10px] text-gray-400 mt-0.5 font-medium">{t.user}</p>
-              </div>
-            ))}
-          </div>
-        )}
-
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
           <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-12">
             <div className="flex-1 text-center lg:text-left">
@@ -141,13 +113,6 @@ const Home = () => {
                   Comprar ahora
                   <ArrowRight className="w-4 h-4" />
                 </button>
-                <button
-                  onClick={() => setShowComments(!showComments)}
-                  className="p-2.5 rounded-full border border-white/20 hover:bg-white/10 transition-colors"
-                  title="Comentarios"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                </button>
               </div>
             </div>
             <div className="hidden lg:flex flex-col items-center gap-3">
@@ -171,28 +136,49 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Benefits / Promo section (always visible when no category selected) */}
+      {/* Apple-style Category Showcase */}
       {!activeCategory && (
         <section className="py-10 lg:py-14 bg-white dark:bg-[#181b2a]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-8">
               <h2 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                ¿Por qué elegir TechZone?
+                Explora nuestras categorías
               </h2>
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                La mejor experiencia de compra en tecnología
+                Encuentra lo que necesitas
               </p>
             </div>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-              {benefits.map((benefit, i) => (
-                <div key={i} className="text-center p-5 rounded-xl bg-gray-50 dark:bg-[#1a1d27] border border-gray-100 dark:border-gray-800 hover:shadow-fun transition-all">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-600 flex items-center justify-center mx-auto mb-3 shadow-sm">
-                    <benefit.icon className="w-5 h-5 text-white" />
-                  </div>
-                  <h3 className="font-semibold text-sm text-gray-900 dark:text-gray-100 mb-1">{benefit.title}</h3>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">{benefit.desc}</p>
-                </div>
-              ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+              {categories.map(cat => {
+                const Icon = CATEGORY_ICONS[cat]
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => handleCategoryClick(cat)}
+                    className="group relative overflow-hidden rounded-2xl bg-gray-50 dark:bg-[#1a1d27] border border-gray-100 dark:border-gray-800 hover:shadow-fun transition-all duration-300 hover:-translate-y-0.5"
+                  >
+                    <div className="aspect-[3/1] sm:aspect-[4/1] lg:aspect-[3/1] relative overflow-hidden">
+                      <img
+                        src={CATEGORY_IMAGES[cat]}
+                        alt={CATEGORY_NAMES[cat]}
+                        className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105 group-hover:opacity-80"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
+                      <div className="absolute inset-0 flex items-center">
+                        <div className="flex items-center gap-3 px-5 lg:px-8">
+                          <div className="w-9 h-9 lg:w-10 lg:h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                            <Icon className="w-5 h-5 lg:w-5.5 lg:h-5.5 text-white" />
+                          </div>
+                          <div className="text-left">
+                            <h3 className="text-lg lg:text-xl font-bold text-white">{CATEGORY_NAMES[cat]}</h3>
+                            <p className="text-xs text-white/70">Ver productos →</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </button>
+                )
+              })}
             </div>
           </div>
         </section>
@@ -263,13 +249,6 @@ const Home = () => {
             >
               Ver productos
               <ArrowRight className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => setShowComments(!showComments)}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 border border-white/30 text-white rounded-full text-xs font-medium hover:bg-white/10 transition-colors"
-            >
-              <Heart className="w-3.5 h-3.5" />
-              Testimonios
             </button>
           </div>
         </div>
